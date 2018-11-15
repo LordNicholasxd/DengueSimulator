@@ -2,8 +2,6 @@
 #include<stdlib.h>
 #include<time.h>
 
-
-
 typedef int bool;
 #define true 1
 #define false 0
@@ -21,6 +19,7 @@ typedef struct Vizinho{
 typedef struct Casa{
   int ndacasa, mosquito, moradores;
   bool infectada;
+  int totv;
   Tvizinho *vizinho;
   struct Casa *prox;
 }casa;
@@ -72,6 +71,7 @@ void INSERE_CASA(int n, cidade *c,int nm)
     aux->vizinho = NULL;
     aux->moradores = nm;
     aux->mosquito = 0;
+    aux->totv = 0;
     aux->infectada = false;
     c->inicio = c->fim = aux;
   } else {
@@ -81,6 +81,7 @@ void INSERE_CASA(int n, cidade *c,int nm)
     aux->vizinho = NULL;
     aux->moradores = nm;
     aux->mosquito = 0;
+    aux->totv = 0;
     aux->infectada = false;
     c->fim->prox = aux;
     c->fim = aux;
@@ -92,6 +93,7 @@ void LIGA_CASAS(int cI, int cII, cidade *v)
   casa *aux = busca(cI, v->inicio), *aux2 = busca(cII, v->inicio);
     insereVizinho(aux, cII);
     insereVizinho(aux2, cI);
+    aux->totv++; aux2->totv++;
 }
 
 void AGENTE_ATUA(casa cas)
@@ -148,9 +150,11 @@ casa *busca(int num, casa *c){
   else return busca(num, c->prox);
 }
 
+void MOSQUITO_MOVE(void){
+  int totviz = cs->totv;
+  int nc = rand()%totviz;
+}
 /*
-
-MOSQUITO_MOVE();
 INSERE_MOSQUITO();
 INICIA_MOSQUITO();
 FIM();
